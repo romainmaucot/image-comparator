@@ -1,0 +1,271 @@
+<!doctype html>
+<html>
+   <head>
+      <meta charset="UTF-8">
+      <link rel="stylesheet" href="css/jquery.modal.min.css" />
+      <link rel="stylesheet" href="css/style.css">
+      <link rel="stylesheet" href="fontawsome/css/all.css">
+      <link rel="stylesheet" href="fontawsome/css/fontawesome.min.css">
+      <title>Image Editor</title>
+      <script src="js/jquery-2.2.0.min.js"></script>
+      <script src="js/jquery-ui.js"></script>
+
+      <!-- jQuery Modal -->
+      <script src="js/jquery.modal.min.js"></script>
+      <!-- Couleurs images -->
+	  <script src="js/colorize.js"></script>
+    <script src="js/fabric.js"></script>
+    <script type="text/javascript" src="farbtastic.js"></script>
+   </head>
+   <body onLoad="init()">
+	  <!-- MENU CONTEXTUEL -->
+		<ul class="contextMenu" hidden>
+		  <li><a href="#" onClick="resetsetting();"><i class="fas fa-undo-alt"></i> &nbsp; Reset setting</a></li>
+		  <li><a href="#ex1" rel="modal:open"><i class="fas fa-life-ring"></i> &nbsp; Help support</a></li>
+		  <li><a href="mailto:a.franceschini@agencesurf.com"><i class="fa fa-envelope"></i> &nbsp; Contact</a></li>
+		  <li>
+			  <a class="fab fa-facebook-f" href="#"></a>
+			  <a class="fab fa-instagram" href="#"></a>
+			  <a class="fab fa-linkedin" href="#"></a>
+			  <a class="fas fa-globe" href="https://www.agencesurf.com"></a>
+		  </li>
+		</ul>
+	   <!-- MODAL HELP-->
+      <div id="ex1" class="modal" >
+         <div><img src="img/help/step1.jpg" width="627" height="420" alt=""/></div>
+         <div><h1>FIRST STEP</h1><p>Drag & drop your first picture into this area or choose a picture on your computer with the button "Select a photo from your computer"</p></div>
+		  <a href="#ex2" class="label-file" rel="modal:open" style="display:inline-block; text-transform: uppercase; text-align: center; text-decoration: none; position: relative; right: -400px;">Next step &nbsp; <i class="fa fa-arrow-right"></i></a>
+         <a href="#close-modal" rel="modal:close" class="close-modal icon-remove"><i class="fa fa-times" aria-hidden="true"></i></a>
+      </div>
+      <div id="ex2" class="modal" >
+         <div><img src="img/help/step2.jpg" width="627" height="420" alt=""/></div>
+         <div><h1>SECOND STEP</h1><p>Drag & drop your second picture into this area or choose a picture on your computer with the button "Select a photo from your computer"</p></div>
+		  <a href="#ex1" class="label-file" rel="modal:open" style="display:inline-block; text-transform: uppercase; text-align: center; text-decoration: none; position: relative; left: 0px;"><i class="fa fa-arrow-left"></i> &nbsp; Previous step</a>
+		  <a href="#ex3" class="label-file" rel="modal:open" style="display:inline-block; text-transform: uppercase; text-align: center; text-decoration: none; position: relative; right: -166px;">Next step &nbsp; <i class="fa fa-arrow-right"></i></a>
+         <a href="#close-modal" rel="modal:close" class="close-modal icon-remove"><i class="fa fa-times" aria-hidden="true"></i></a>
+      </div>
+      <div id="ex3" class="modal" >
+         <p>third advice</p>
+         <a href="#close-modal" rel="modal:close" class="close-modal icon-remove"><i class="fa fa-times" aria-hidden="true"></i></a>
+      </div>
+	  <!-- HEADER -->
+      <div id="tophead">
+         <table class="gauche title">
+            <tr>
+               <th><img src="img/dailybooth-logo.png" alt="camera1"/></th>
+               <th>
+                  <div style="width: 300px;text-align: left; font-weight: lighter; padding-left: 15px;"><em>PHOTO <strong>COMPARATOR</strong></em></div>
+               </th>
+               <th  style="width: 27.3%;">
+               <th>
+                  <div class="square" ></div>
+               </th>
+               <th>
+                  <div class="square1"></div>
+               </th>
+               <th>
+                  <form class="buttonswitch " name="switch">
+                     <div class="onoffswitch ">
+                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" onchange="view();">
+                        <label class="onoffswitch-label" for="myonoffswitch">
+                        <span class="onoffswitch-inner"></span>
+                        <span class="onoffswitch-switch"></span>
+                        </label>
+                     </div>
+                  </form>
+               </th>
+               <th>
+                  <img src="img/layers.png" alt="layers"/>
+               </th>
+               </th>
+               <th style="width: 44%; text-align: right;">
+                  <a href="#ex1" rel="modal:open"><button  class="help droite option" ><strong style="padding: 6px 8px;"><i class="fa fa-life-ring" style="padding-right: 5px; font-size: 20px" aria-hidden="true"></i>HELP SUPPORT</strong></button></a>
+               </th>
+            </tr>
+         </table>
+      </div>
+	  <!-- MENU -->
+	  <div id="menu">
+			  <table style="width: 100%; height: 50px">
+					<tr>
+					   <th class="photo" style=" font-weight: bold;" id="bold1" onclick="displayleft()"><img src="img/camera.png" alt="drag1"/>&nbsp; PHOTO&nbsp;1</th>
+					   <th class="photo" style=" font-weight: normal" id ="bold2" onclick="displayright()"><img src="img/camera.png" alt="drag2"/>&nbsp; PHOTO&nbsp;2</th>
+					</tr>
+				 </table>
+				 <table style="width: 100%">
+					<tr>
+					   <th style="width: 50%;" class="trait" id="underline1">
+					   </th>
+					   <th style="width: 50%;" id="underline2">
+					   </th>
+					</tr>
+				 </table>
+			  <form id="reglage" onsubmit="return false" class="seeting" oninput="resultat.value = myrange.valueAsNumber;resultat2.value = myrange2.valueAsNumber;resultat3.value = myrange3.valueAsNumber;resultat4.value = myrange4.valueAsNumber;resultat5.value = myrange5.valueAsNumber;resultat6.value = myrange6.valueAsNumber;resultat7.value = myrange7.valueAsNumber;resultat8.value = myrange8.valueAsNumber;resultat9.value = myrange9.valueAsNumber;resultat10.value = myrange10.valueAsNumber;resultat21.value = myrange21.valueAsNumber;resultat22.value = myrange22.valueAsNumber;">
+				<!-- SEETING PHOTO 1 -->
+				  <div id="reglage1" style="display: block;" >
+					<button  class="toggle" id="select2" >BASICS <i style="float: right; padding-right: 5px;" class="fa fa-angle-up" id="fa2"></i></button>
+					<div id="basics">
+					   <label style="margin-top: 20px;">Opacity :</label>
+					   <p class="pourcent" style="margin-top: 20px;">%</p>
+					   <output id="resultat" style="margin-top: 20px;" for="myrange">100</output><br/>
+					   <input type="range" name="myrange" min="0" max="100" value="100" class="myrange" id="myrange" step="1" onchange="transparence_img1();" /> <br><br>
+					   <label >Light :</label>
+					   <p class="pourcent">%</p>
+					   <output id="resultat3" for="myrange3">100</output><br/>
+					   <input type="range" name="myrange3" min="0" max="200" value="100" class="myrange" id="myrange3" step="1" onchange="luminosite_img1();" />  <br><br>
+					   <label >Contrast :</label>
+					   <p class="pourcent">%</p>
+					   <output id="resultat5" for="myrange5">100</output> <br/>
+					   <input type="range" name="myrange5" min="0" max="200" value="100" class="myrange" id="myrange5" step="1" onchange="contrast_img1();" />  <br><br>
+					   <label >Saturation :</label>
+					   <p class="pourcent">%</p>
+					   <output id="resultat21" for="myrange21">100</output><br/>
+					   <input type="range" name="myrange21" min="0" max="200" value="100" class="myrange" id="myrange21" step="1" onchange="couleur_img1();" />  <br><br>
+					   <label >Zoom :</label>
+					   <p class="pourcent">%</p>
+					   <output id="resultat7" for="myrange7">100</output><br/>
+					   <input type="range" name="myrange7" min="0" max="300" value="100" class="myrange" id="myrange7" step="1" onchange="zoom_img1();" />  <br><br>
+				   <label style="width: 300px;margin-bottom: 15px;">Move :</label><br>
+					   <table align="center" >
+						  <tr>
+							 <th></th>
+							 <th width="40" height="40"><button id="gauche" class="fa fa-arrow-left arrow" width="40" height="40"></button></th>
+							 <th></th>
+							 <th width="40" height="40"><button id="droite" class="fa fa-arrow-right arrow" width="40" height="40"></button></th>
+							 <th></th>
+							 <th width="40" height="40"><button id="haut" class="fa fa-arrow-up arrow" width="40" height="40"></button></th>
+							 <th></th>
+							 <th width="40" height="40"><button id="bas" class="fa fa-arrow-down arrow" width="40" height="40"></button></th>
+							 <th></th>
+						  </tr>
+						  <tr>
+							 <th></th>
+							 <th>Left</th>
+							 <th></th>
+							 <th>Right</th>
+							 <th></th>
+							 <th>Up</th>
+							 <th></th>
+							 <th>Down</th>
+							 <th></th>
+						  </tr>
+					   </table><br><label style="width: 300px;margin-bottom: 15px;">Image color :</label><br>
+						<div style="text-align: center;"><button onclick="doGray()" class="colorisation" style="background-color: #929292; color:#929292;">Gray</button>
+						<button onclick="doRed()" class="colorisation" style="background-color:#BF0003; color:#BF0003;">Red</button>
+						<button onclick="doBlue()" class="colorisation" style="background-color: #09197B; color:#09197B;">Blue</button>
+						<button onclick="doGreen()" class="colorisation" style="background-color: #307A00; color:#307A00;">Green</button>
+						<button onclick="makeReset()" style="border-radius: 20px; width: 60px;height: 20px; border: 0px; font-size: 12px; color: #FFF;margin: 3px; cursor: pointer;">Original</button></div>
+					</div>
+
+					<button  class="select" id="select1" >ROTATE <i style="float: right; padding-right: 5px;" class="fa fa-angle-down" id="fa1"></i></button>
+					<div style="display: none;" id="rotate">
+					   <br />
+					   <label >Rotation :</label>
+					   <p class="pourcent">°</p>
+					   <output id="resultat9" for="myrange9">0</output><br/>
+					   <input type="range" name="myrange9" min="-180" max="180" value="0" class="myrange" id="myrange9" step="1" onchange="rotate_img1();" /><br>
+					   <div class="slideOne">
+						  <label style="width: 30%">Flip :</label>
+						  <label for="slideOne"  class="containercheck">
+						  <input type="checkbox" class="flipcheck" id="slideOne" name="check" />
+						  <span class="checkmark"></span>
+						  </label>
+					   </div>
+					</div>
+					<br>
+				 </div>
+			<!-- SEETING PHOTO 2 -->
+			 <div id="reglage2" style="display: none;">
+				<button  class="toggle" id="select3" >BASICS <i style="float: right; padding-right: 5px;" class="fa fa-angle-up" id="fa3"></i></button>
+				<div id="basics2">
+				   <label style="margin-top: 20px;" >Opacity :</label>
+				   <p class="pourcent" style="margin-top: 20px;">%</p>
+				   <output id="resultat2" for="myrange2" style="margin-top: 20px;">100</output><br/>
+				   <input type="range" name="myrange2" min="0" max="100" value="100" class="myrange" id="myrange2" step="1" onchange="transparence_img2();" /> <br><br>
+				   <label >Light :</label>
+				   <p class="pourcent">%</p>
+				   <output id="resultat4" for="myrange4">100</output><br/>
+				   <input type="range" name="myrange4" min="0" max="200" value="100" class="myrange" id="myrange4" step="1" onchange="luminosite_img2();" /> <br><br>
+				   <label >Contrast :</label>
+				   <p class="pourcent">%</p>
+				   <output id="resultat6" for="myrange6">100</output><br/>
+				   <input type="range" name="myrange6" min="0" max="200" value="100" class="myrange" id="myrange6" step="1" onchange="contrast_img2();" />  <br><br>
+				   <label >Saturation :</label>
+				   <p class="pourcent">%</p>
+				   <output id="resultat22" for="myrange22">100</output><br/>
+				   <input type="range" name="myrange22" min="0" max="200" value="100" class="myrange" id="myrange22" step="1" onchange="couleur_img2();" />  <br><br>
+				   <label >Zoom :</label>
+				   <p class="pourcent">%</p>
+				   <output id="resultat8" for="myrange8">100</output><br/>
+				   <input type="range" name="myrange8" min="0" max="300" value="100" class="myrange" id="myrange8" step="1" onchange="zoom_img2();" /> <br><br>
+				   <label style="width: 300px;margin-bottom: 15px;">Move :</label><br>
+					<table align="center" >
+					  <tr>
+						 <th></th>
+						 <th width="40" height="40"><button id="gauche-2" class="fa fa-arrow-left arrow" width="40" height="40"></button></th>
+						 <th></th>
+						 <th width="40" height="40"><button id="droite-2" class="fa fa-arrow-right arrow" width="40" height="40"></button></th>
+						 <th></th>
+						 <th width="40" height="40"><button id="haut-2" class="fa fa-arrow-up arrow" width="40" height="40"></button></th>
+						 <th></th>
+						 <th width="40" height="40"><button id="bas-2" class="fa fa-arrow-down arrow" width="40" height="40"></button></th>
+						 <th></th>
+					  </tr>
+					  <tr>
+						 <th></th>
+						 <th>Left</th>
+						 <th></th>
+						 <th>Right</th>
+						 <th></th>
+						 <th>Up</th>
+						 <th></th>
+						 <th>Down</th>
+						 <th></th>
+					  </tr>
+				   </table>
+					<br><label style="width: 300px;margin-bottom: 15px;">Image color :</label><br>
+					<div style="text-align: center;"><button onclick="doGray_2()" class="colorisation" style="background-color: #929292; color:#929292;">Gray</button>
+						<button onclick="doRed_2()" class="colorisation" style="background-color:#BF0003; color:#BF0003;">Red</button>
+						<button onclick="doBlue_2()" class="colorisation" style="background-color: #09197B; color:#09197B;">Blue</button>
+						<button onclick="doGreen_2()" class="colorisation" style="background-color: #307A00; color:#307A00;">Green</button>
+						<button onclick="makeReset_2()" style="border-radius: 20px; width: 60px;height: 20px; border: 0px; font-size: 12px; color: #FFF;margin: 3px; cursor: pointer;">Original</button></div>
+				</div>
+				<button  class="select" id="select4" >ROTATE <i style="float: right; padding-right: 5px;" class="fa fa-angle-down" id="fa4"></i></button>
+				<div style="display: none;" id="rotate2">
+				   <br />
+				   <label >Rotation :</label>
+				   <p class="pourcent">°</p>
+				   <output id="resultat10" for="myrange10">0</output><br/>
+				   <input type="range" name="myrange10" min="-180" max="180" value="0" class="myrange" id="myrange10" step="1" onchange="rotate_img2();" /><br>
+				   <div class="slideOne">
+					  <label style="width: 30%">Flip :</label>
+					  <label for="slideTwo"  class="containercheck">
+					  <input type="checkbox" value="None" id="slideTwo" name="check" hidden/>
+					  <span class="checkmark"></span>
+					  </label>
+				   </div>
+				</div>
+			 </div>
+		  </form>
+			 <button class="reset" id="resetsetting" onclick="resetsetting();">RESET ALL SETTINGS</button>
+		     <!-- <button class="reset" onclick="download_image()">DOWNLOAD</button>-->
+
+	  </div>
+<div id="dragbar"></div>
+	  <!-- CONTENU -->
+	  <div id="container">
+			 <div id="holder" class="container-img1" onclick="displayleft();" style="box-shadow: 0 0 20px #1895db; width: 45%;" >
+				<div id="drag1"><div id="upload" style="transform: translateY(50%)"><span style="font-weight: 800; font-size: 25px; ">PHOTO 1</span><br><br><img src="img/photo.png" width="70" alt="camera2"><br>Drag a photo here<br><span style="font-weight: 400; font-size: 15px; ">- or -</span><br><br><label for="file" class="label-file">Select a photo from your computer</label><input type="file" id="file" class="input-file"  multiple="false" onchange="loadImage()">
+    </div><canvas id="img" height="1" width="100%"></canvas></div>
+			 </div>
+			 <div id="holder2" class="container-img2" onclick="displayright();" style="width: 45%;">
+				 <div id="drag2"><div id="upload_2" style="transform: translateY(50%)"><span style="font-weight: 800; font-size: 25px; ">PHOTO 2</span><br><br><img src="img/photo.png" width="70" alt="camera3"><br>Drag a photo here<br><span style="font-weight: 400; font-size: 15px; ">- or -</span><br><br><label for="file_2" class="label-file">Select a photo from your computer</label><input type="file" id="file_2" class="input-file" onchange="loadImage_2();"></div><canvas id="img_2" height="1" width="100%"></canvas></div>
+			 </div>
+			 <div id="order" style="display: none;">
+			  <a href="#" onClick="javascript:invert()" style="text-transform: uppercase; font-weight: 500; float: right; padding: 20px 20px;" id="first"><img src="img/ordre.png" alt="layers_order"/></a>
+			 </div>
+	  </div>
+      <script src="js/editor.js"></script>
+
+   </body>
+</html>
